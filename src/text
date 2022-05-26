@@ -1,0 +1,18 @@
+import {StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import {mvs} from 'react-native-size-matters';
+import {COLORS} from '../utils/theme';
+
+const TopBar = () => {
+  return (
+    <View>
+
+    </View>
+  );
+};
+export default TopBar;
+
+const styles = StyleSheet.create({
+
+});
+

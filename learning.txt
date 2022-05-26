@@ -1,0 +1,8 @@
+toggle button
+https://www.npmjs.com/package/react-native-switch-toggle
+
+//react-native snippets
+https://github.com/italoiz/react-native-webstorm-snippets
+
+//................................................
+
