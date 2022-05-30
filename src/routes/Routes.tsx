@@ -5,6 +5,8 @@ import {ROUTES} from '../utils/constants';
 import DriverRoutes from './DriverRoutes';
 import {COLORS} from '../utils/theme';
 import NewOrder from "../screens/NewOrder";
+import PickUpConfirmScreen from "../screens/PickUpConfirmScreen";
+import OrderDeliveredConfirm from "../screens/OrderDeliveredConfirm";
 const Stack = createNativeStackNavigator();
 
 const Routes = (): JSX.Element => {
@@ -13,7 +15,7 @@ const Routes = (): JSX.Element => {
       <View style={{flex: 1}}>
         <Stack.Navigator
           screenOptions={{headerShown: false}}
-          initialRouteName={ROUTES.intro}>
+          initialRouteName={ROUTES.driverRoutes.root}>
           <Stack.Screen
             name={ROUTES.login}
             component={DriverRoutes}
@@ -24,7 +26,7 @@ const Routes = (): JSX.Element => {
           />
           <Stack.Screen
             name={ROUTES.driverRoutes.root}
-            component={DriverRoutes}
+            component={PickUpConfirmScreen}
           />
         </Stack.Navigator>
       </View>

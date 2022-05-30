@@ -64,13 +64,39 @@ const NewOrder = () => {
               location1
             </Text>
           </View>
-
+          </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingHorizontal: 30,
+            paddingTop: 0,
+          }}>
+          <View/>
           <View>
             <Image
-              source={require('../../assets/iconsImages/right-arrow.png')}
-              style={{width: 40, height: 20}}
+              source={require('../../assets/iconsImages/curve-arrow.png')}
+              style={{width: 60, height: 60}}
             />
           </View>
+          <View/>
+          <View/>
+          <View/>
+
+
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingHorizontal: 30,
+            paddingTop: 10,
+          }}>
+          <View/>
+          <View/>
+
           <View style={{alignItems: 'center'}}>
             <Image
               source={require('../../assets/iconsImages/restaurant.png')}
@@ -85,13 +111,43 @@ const NewOrder = () => {
               location2
             </Text>
           </View>
+          <View/>
+          <View/>
+
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingHorizontal: 30,
+          }}>
+          <View/>
+          <View/>
+          <View/>
 
           <View>
             <Image
-              source={require('../../assets/iconsImages/right-arrow.png')}
-              style={{width: 40, height: 20}}
+              source={require('../../assets/iconsImages/curve-arrow.png')}
+              style={{width: 60, height: 60}}
             />
           </View>
+          <View/>
+
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingHorizontal: 30,
+            paddingTop: 10,
+          }}>
+          <View/>
+          <View/>
+          <View/>
+          <View/>
+
           <View style={{alignItems: 'center'}}>
             <Image
               source={require('../../assets/iconsImages/pin.png')}

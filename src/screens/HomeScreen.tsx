@@ -41,13 +41,13 @@ const HomeScreen = () => {
             backgroundColorOff={COLORS.whitePure}
             backTextLeft={on ? 'online' : ''}
             backTextRight={!on ? 'offline' : ''}
-            textRightStyle={{color: COLORS.textBlack, fontWeight: '400'}}
+            textRightStyle={{color: COLORS.placeHolder, fontWeight: '400'}}
             textLeftStyle={{color: COLORS.textOrange, fontWeight: '600'}}
             rightContainerStyle={{
               alignItems: 'center',
               justifyContent: 'center',
               position: 'absolute',
-              right: 15,
+              right: 10,
             }}
             circleColorOff={COLORS.descriptionText}
             circleColorOn={COLORS.greenButton}
