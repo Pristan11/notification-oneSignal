@@ -10,6 +10,10 @@ import OrderDeliveredConfirm from '../screens/OrderDeliveredConfirm';
 import HomeDrawerNavigation from './DrawerNavigation';
 import OrdersTabs from '../screens/OrdersTabs';
 import OrderDetail from '../screens/OrderDetail';
+import ReadyFoodOrderDetail from "../screens/ReadyFoodOrderDetail";
+import IntroScreen from "../screens/IntroScreen";
+import LoginScreen from "../screens/Login";
+import Login from "../screens/Login";
 const Stack = createNativeStackNavigator();
 
 const Routes = (): JSX.Element => {
@@ -18,14 +22,14 @@ const Routes = (): JSX.Element => {
       <View style={{flex: 1}}>
         <Stack.Navigator
           screenOptions={{headerShown: false}}
-          initialRouteName={ROUTES.driverRoutes.root}>
-          <Stack.Screen name={ROUTES.login} component={DriverRoutes} />
-          <Stack.Screen name={ROUTES.intro} component={NewOrder} />
+          initialRouteName={ROUTES.login}>
+          <Stack.Screen name={ROUTES.login} component={Login} />
+          <Stack.Screen name={ROUTES.currentOrders} component={OrdersTabs} />
           <Stack.Screen
-            name={ROUTES.driverRoutes.root}
-            component={OrdersTabs}
+            name={ROUTES.orderDetail}
+            component={OrderDetail}
           />
-          <Stack.Screen name={ROUTES.orderDetail} component={OrderDetail} />
+          <Stack.Screen name={ROUTES.readyFoodOrderDetail} component={ReadyFoodOrderDetail} />
         </Stack.Navigator>
       </View>
     </SafeAreaView>

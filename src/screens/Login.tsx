@@ -1,45 +1,21 @@
 import {
-  Dimensions,
   Image,
+  ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {COLORS} from '../utils/theme';
-import {DEVICE} from '../utils/constants';
+import {Icon} from '../components/Icon';
+import { ScreenProp } from "../../App";
+import { DEVICE, ROUTES, SWITTO_SIZES } from "../utils/constants";
 
-const {width} = Dimensions.get('window');
-const IntroScreen = () => {
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 3500);
-  }, []);
-  if (loading) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: COLORS.whitePure,
-          paddingHorizontal: 20,
-        }}>
-        <Image
-          source={require('../../assets/switto-animated/SwittoLogo.gif')}
-          style={{
-            width: DEVICE.width - 40,
-            height: DEVICE.height - DEVICE.height * 0.6,
-            marginTop: DEVICE.height * 0.3,
-          }}
-        />
-      </View>
-    );
-  }
-
+const Login = ({navigation}: ScreenProp) => {
   return (
-    <View style={{flex: 1}}>
+    <ScrollView style={{flex: 1}}>
       <View style={styles.main}>
         <View style={styles.logoParentView}>
           <View style={styles.logoView}>
@@ -54,61 +30,72 @@ const IntroScreen = () => {
               source={require('../../assets/switto/common/logo2.png')}
               style={styles.roundLogo}
             />
-          </View>
-
-          <View style={{position: 'absolute', top: -80, right: -40}}>
-            <Image
-              source={require('../../assets/swittoTempImages/homepage/home.png')}
-              style={{width: 200, height: 200}}
-            />
-          </View>
-          <View style={{position: 'absolute', top: width * 0.75, left: -110}}>
-            <Image
-              source={require('../../assets/swittoTempImages/homepage/home2.png')}
-              style={{width: 200, height: 140}}
-            />
-          </View>
-          <View style={{position: 'absolute', top: width * 0.4}}>
-            <Text style={styles.firstTitle}>
-              The Experience of Buying Food Quickly
-            </Text>
-          </View>
-        </View>
-        <View style={styles.buttonsParentView}>
-          <View style={styles.buttonsView}>
-            <View style={styles.TextParentView}>
-              <Text style={styles.secondTitle}>
-                Use your switto account to get started
-              </Text>
+            <View style={{position: 'absolute', top: DEVICE.width * 0.4}}>
+              <Text style={styles.firstTitle}>Switto Rider</Text>
             </View>
-            <Button
-              backgroundColor={COLORS.whitePure}
-              borderRadius={3}
-              borderColor={COLORS.orange}
-              borderWidth={2}
-              color={COLORS.textOrange}
-              title="Login"
-              onPress={() => {
-                // navigation.navigate(ROUTES.USER_ROUTES.login);
-                setLoginPopupShow(true);
-              }}
-            />
-            <Button
-              backgroundColor={COLORS.orange}
-              color={COLORS.white}
-              borderRadius={3}
-              borderColor={COLORS.orange}
-              borderWidth={2}
-              title="Sign Up"
-              onPress={() => setSignUpPopupShow(true)}
-            />
+            <View>
+              <Text style={styles.secondTitle}>
+                Welcome back! Please enter your details
+              </Text>
+              <View style={{width: DEVICE.width * 0.8, marginTop: 20}}>
+                <TextInput
+                  style={{
+                    backgroundColor: COLORS.whitePure,
+                    paddingVertical: 5,
+                    borderRadius: 3,
+                    color: COLORS.textBlack,
+                    fontWeight: '500',
+                    paddingLeft: 20,
+                  }}
+                  placeholder={'Email Address'}
+                  placeholderTextColor={COLORS.placeHolder}
+                />
+              </View>
+              <View style={{width: DEVICE.width * 0.8, marginTop: 10}}>
+                <TextInput
+                  style={{
+                    backgroundColor: COLORS.whitePure,
+                    paddingVertical: 5,
+                    borderRadius: 3,
+                    color: COLORS.textBlack,
+                    fontWeight: '500',
+                    paddingLeft: 20,
+                  }}
+                  placeholder={'Password'}
+                  placeholderTextColor={COLORS.placeHolder}
+                  secureTextEntry={true}
+                />
+              </View>
+              <TouchableOpacity
+                onPress={()=> navigation.navigate(ROUTES.currentOrders)}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  backgroundColor: COLORS.greenButton,
+                  paddingVertical: 9,
+                  paddingHorizontal: 20,
+                  borderRadius: 3,
+                  marginTop: 12,
+                  justifyContent: 'space-between',
+                }}>
+                <Text style={{color: COLORS.whitePure, fontWeight: '500'}}>
+                  Login
+                </Text>
+                <Icon
+                  name={'chevron-forward-sharp'}
+                  IconType={'Ionicons'}
+                  color={COLORS.whitePure}
+                  size={'small'}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
-export default IntroScreen;
+export default Login;
 type Button = {
   backgroundColor: string;
   color: string;
@@ -121,16 +108,16 @@ type Button = {
   borderRadius?: number;
 };
 const Button = ({
-  backgroundColor,
-  color,
-  height,
-  title,
-  onPress,
-  style,
-  borderWidth,
-  borderColor,
-  borderRadius,
-}: Button) => (
+                  backgroundColor,
+                  color,
+                  height,
+                  title,
+                  onPress,
+                  style,
+                  borderWidth,
+                  borderColor,
+                  borderRadius,
+                }: Button) => (
   <TouchableOpacity
     style={{
       backgroundColor: backgroundColor ? backgroundColor : COLORS.orange,
@@ -164,38 +151,42 @@ const styles = StyleSheet.create({
     flex: 2.5,
     alignItems: 'center',
   },
-  logoView: {
-    borderRadius: 7,
-  },
+  logoView: {},
   logo: {
-    height: width,
+    height: DEVICE.height,
+    width: DEVICE.width,
     borderRadius: 7,
   },
   roundLogoView: {
     position: 'absolute',
-    marginTop: width * 0.78,
+    marginTop: DEVICE.width * 0.5,
+    width: DEVICE.width,
+    alignItems: 'center',
   },
   roundLogo: {
     backgroundColor: COLORS.whitePure,
     width: 160,
     height: 160,
     borderRadius: 80,
+    borderColor: COLORS.textOrange,
+    borderWidth: 1,
   },
   TextParentView: {
-    paddingHorizontal: width * 0.08,
+    paddingHorizontal: DEVICE.width * 0.08,
     marginTop: -20,
   },
   firstTitle: {
     paddingHorizontal: 20,
     color: COLORS.whitePure,
     fontSize: 30,
+    marginTop: 10,
     fontWeight: '400',
     textAlign: 'center',
   },
   secondTitle: {
     color: COLORS.descriptionText,
-    fontSize: 13,
-    marginTop: 10,
+    fontSize: SWITTO_SIZES.fontSize,
+    marginTop: 60,
     textAlign: 'center',
   },
   buttonsParentView: {

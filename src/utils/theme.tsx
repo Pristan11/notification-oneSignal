@@ -36,6 +36,23 @@ export const COLORS = {
   foodPreparingColor: '#406eeb',
   readyFoodButtonOrange: '#eaae16',
   cashHand: '#e61b1b',
-  drivingIndicateGreen: '#0b833d'
+  drivingIndicateGreen: '#0b833d',
+  orderDetailRose: '#f0d4d4',
+  orderTitle: '#666666',
+  orderHeaderTitle: '#595864',
+  newOrderDetailText: '#454b60',
+  progressOrderDetailText: '#595864',
+  completeOrderDetailText: '#4e5a70',
+  schedule: '#e13333',
+  logo: '#ccc',
+  addNote: '#5c1919',
+  addNoteBackground: '#f0c0c0',
+  pickUpButton: '#222222',
+  printButton: '#EFEFEF',
+  orderCartFoodName: '#373737',
+  backgroundYellow: '#f0cd4f',
+  backgroundGrayDark: '#dbdfe4',
+  swipeButtonGreen: '#0ca74f',
+  swipeSliderButtonGreen: '#078e41'
 };
 
