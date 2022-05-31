@@ -4,9 +4,12 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {ROUTES} from '../utils/constants';
 import DriverRoutes from './DriverRoutes';
 import {COLORS} from '../utils/theme';
-import NewOrder from "../screens/NewOrder";
-import PickUpConfirmScreen from "../screens/PickUpConfirmScreen";
-import OrderDeliveredConfirm from "../screens/OrderDeliveredConfirm";
+import NewOrder from '../screens/NewOrder';
+import PickUpConfirmScreen from '../screens/PickUpConfirmScreen';
+import OrderDeliveredConfirm from '../screens/OrderDeliveredConfirm';
+import HomeDrawerNavigation from './DrawerNavigation';
+import OrdersTabs from '../screens/OrdersTabs';
+import OrderDetail from '../screens/OrderDetail';
 const Stack = createNativeStackNavigator();
 
 const Routes = (): JSX.Element => {
@@ -16,18 +19,13 @@ const Routes = (): JSX.Element => {
         <Stack.Navigator
           screenOptions={{headerShown: false}}
           initialRouteName={ROUTES.driverRoutes.root}>
-          <Stack.Screen
-            name={ROUTES.login}
-            component={DriverRoutes}
-          />
-          <Stack.Screen
-            name={ROUTES.intro}
-            component={NewOrder}
-          />
+          <Stack.Screen name={ROUTES.login} component={DriverRoutes} />
+          <Stack.Screen name={ROUTES.intro} component={NewOrder} />
           <Stack.Screen
             name={ROUTES.driverRoutes.root}
-            component={PickUpConfirmScreen}
+            component={OrdersTabs}
           />
+          <Stack.Screen name={ROUTES.orderDetail} component={OrderDetail} />
         </Stack.Navigator>
       </View>
     </SafeAreaView>

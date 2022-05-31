@@ -1,20 +1,24 @@
-import {StyleSheet, Text, View, StatusBar, Image} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useState} from 'react';
 import {COLORS} from '../utils/theme';
 import {DEVICE, SWITTO_SIZES} from '../utils/constants';
 import SwitchToggle from 'react-native-switch-toggle';
+import { useNavigation } from "@react-navigation/native";
 
 const HomeScreen = () => {
+  const navigation = useNavigation();
   const [on, setOn] = useState(false);
   return (
     <View style={{flex: 1, backgroundColor: COLORS.backgroundLightGray}}>
-      <StatusBar
-        barStyle={'light-content'}
-        backgroundColor={COLORS.textOrange}
-      />
       <View
         style={{
-          height: DEVICE.height * 0.085,
           width: DEVICE.width,
           backgroundColor: COLORS.textOrange,
           flexDirection: 'row',
@@ -23,10 +27,12 @@ const HomeScreen = () => {
           paddingHorizontal: 20,
           paddingTop: 20,
         }}>
-        <Image
-          source={require('../../assets/iconsImages/userProfile.png')}
-          style={{width: 34, height: 34}}
-        />
+        <TouchableOpacity onPress={() => navigation.openDrawer()}>
+          <Image
+            source={require('../../assets/iconsImages/userProfile.png')}
+            style={{width: 34, height: 34}}
+          />
+        </TouchableOpacity>
         <View>
           <SwitchToggle
             switchOn={on}

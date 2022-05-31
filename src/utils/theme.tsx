@@ -27,6 +27,15 @@ export const COLORS = {
   textOrange: '#f15c22',
   borderColor: '#e7e7e7',
   backgroundLightGray: '#ecf0f6',
-  lightOrange: '#f36d3a'
+  lightOrange: '#f36d3a',
+  topHeaderOrange: '#f15c22',
+  topTabOrange: '#ff6f36',
+  activeTab: '#c74f20',
+  newOrderButtonGreen: '#20cc67',
+  activeButtonBlue: '#1d4ed8',
+  foodPreparingColor: '#406eeb',
+  readyFoodButtonOrange: '#eaae16',
+  cashHand: '#e61b1b',
+  drivingIndicateGreen: '#0b833d'
 };
 

@@ -7,29 +7,28 @@ import {ParamListBase} from '@react-navigation/routers';
 import {NavigationProp, RouteProp} from '@react-navigation/core/src/types';
 // @ts-ignore
 export const navigationRef: RefObject<NavigationContainerRef> =
-    React.createRef();
+  React.createRef();
 
 export type ScreenProp = {
   navigation: NavigationProp<
-      ParamListBase,
-      string,
-      string | undefined,
-      any,
-      any,
-      any
-      >;
+    ParamListBase,
+    string,
+    string | undefined,
+    any,
+    any,
+    any
+  >;
   route: RouteProp<any>;
 };
 const App = () => {
   return (
-      <NavigationContainer
-          onStateChange={() => {
-            navigationRef.current?.getCurrentRoute()?.name;
-          }}
-          ref={navigationRef}>
-
-        <Routes />
-      </NavigationContainer>
+    <NavigationContainer
+      onStateChange={() => {
+        navigationRef.current?.getCurrentRoute()?.name;
+      }}
+      ref={navigationRef}>
+      <Routes />
+    </NavigationContainer>
   );
 };
 
