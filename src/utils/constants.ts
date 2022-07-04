@@ -12,6 +12,7 @@ export const ROUTES = {
   orderPickupConfirm: 'orderPickupConfirm',
   orderDeliveredConfirm: 'orderDeliveredConfirm',
   orderSuccess: 'orderSuccess',
+  driverDrawer: 'driverDrawer'
 };
 export const MyCOLORS = {
   primary: '#FF6C44', //orange

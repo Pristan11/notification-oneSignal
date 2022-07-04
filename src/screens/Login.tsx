@@ -67,7 +67,7 @@ const Login = ({navigation}: ScreenProp) => {
                 />
               </View>
               <TouchableOpacity
-                onPress={()=> navigation.navigate(ROUTES.currentOrders)}
+                onPress={()=> navigation.navigate(ROUTES.driverDrawer)}
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',

@@ -8,3 +8,18 @@ https://github.com/italoiz/react-native-webstorm-snippets
 
 
 https://stackoverflow.com/questions/67130651/reanimated-2-failed-to-create-a-worklet-maybe-you-forgot-to-add-reanimateds-ba
+
+// onesignal ref
+https://www.youtube.com/watch?v=XFQHDt1C8Pc
+//onesignal id
+91105012-75b5-402d-a4ca-003a9104133a
+
+
+//onesignal api key
+NzViMTg1YzItNzM2Ni00ZDg1LTk5ZGEtMWU5MmM4ZjY0MzVi
+
+
+
+//Please include a case-sensitive header of Authorization: Basic <YOUR-REST-API-KEY-HERE> or Bearer token=\"<YOUR-REST-API-KEY-HERE>\" with a valid REST API key
+solution => https://stackoverflow.com/questions/70721312/onesignal-rest-api-request-from-php-please-include-a-case-sensitive-header-of-au
+=> https://stackoverflow.com/questions/57877901/how-to-push-message-notification-to-every-subscriber-of-one-signal
