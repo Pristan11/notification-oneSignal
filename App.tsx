@@ -147,9 +147,13 @@ const App = () => {
       body: JSON.stringify({
         app_id: "91105012-75b5-402d-a4ca-003a9104133a",
         channel_for_external_user_ids: 'push',
-        include_external_user_ids:  ["tesingone798@gmail.com"],
+        included_segments: [
+          "Subscribed Users"
+        ],
         contents: {en: 'Switto or Any Language Message', es: 'Spanish Message'},
-        name: 'INTERNAL_CAMPAIGN_NAME'
+        name: 'INTERNAL_CAMPAIGN_NAME',
+        big_picture: "https://i.gadgets360cdn.com/large/iphone_13_mini_rear_ndtv_1634220984395.jpg",
+        large_icon: "https://media.sketchfab.com/models/8b13cb3155da41108b1a13e3bc35442d/thumbnails/1d84c50b08a140b4b34130202daeb720/blob.jpeg"
       })
     };
 
