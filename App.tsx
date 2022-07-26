@@ -5,13 +5,16 @@ import {
   Button,
   TextInput,
   View,
-  Text
+  Text,
+  TouchableOpacity,
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import OneSignal from 'react-native-onesignal';
 import ThermalPrinterModule from 'react-native-thermal-printer';
-import { COLORS } from "./src/utils/theme";
+import {COLORS} from './src/utils/theme';
+import {USBPrinter} from 'react-native-thermal-receipt-printer';
+import Toast from 'react-native-simple-toast';
 
 ThermalPrinterModule.defaultConfig = {
   ...ThermalPrinterModule.defaultConfig,
@@ -21,21 +24,86 @@ ThermalPrinterModule.defaultConfig = {
 };
 
 const App = () => {
-  useEffect(()=> {
+  const [printers, setPrinters] = useState([
+    {device_name: 'abs', vendor_id: 3233, product_id: 34242},
+  ]);
+  const [currentPrinter, setCurrentPrinter] = useState();
+  const [indexOfPrinter, setIndexOfPrinter] = useState(0);
+  useEffect(() => {
+    USBPrinter.init().then(() => {
+      USBPrinter.getDeviceList()
+        .then(printersList => {
+          setPrinters(printersList);
+          console.log('printersList', printersList);
+        })
+        .catch(error => {
+          Toast.show('Device List' + error, Toast.LONG);
+          console.log('error', error);
+        });
+    });
+  }, []);
+
+  const connectPrinter = printer => {
+    // Toast.show('print connect :' + printer.divice_id, Toast.LONG);
+    USBPrinter.connectPrinter(printer.vendor_id, printer.product_id)
+      .then(connection => {
+        Toast.show('connected:  ' + connection.device_id, Toast.LONG);
+        setCurrentPrinter(printer);
+      })
+      .catch(error => {
+        Toast.show('connection error: ' + error, Toast.LONG);
+      });
+  };
+
+  const printTextTest = () => {
+    if (currentPrinter) {
+      Toast.show('print text: ' + currentPrinter?.device_id, Toast.LONG);
+      currentPrinter && USBPrinter.printText('Test');
+    } else {
+      Toast.show('printer not connected ', Toast.LONG);
+    }
+  };
+
+  const printBillTest = () => {
+    if (currentPrinter) {
+      Toast.show('print bill: ' + currentPrinter?.device_id, Toast.LONG);
+      currentPrinter && USBPrinter.printBill('<c>sample</c>');
+    } else {
+      Toast.show('printer not connected ', Toast.LONG);
+    }
+  };
+
+  const changeDevice = () => {
+    if (printers && printers.length > 1) {
+      if (printers.length < indexOfPrinter + 1) {
+        let temp = indexOfPrinter;
+        temp = temp + 1;
+        setCurrentPrinter(printers[temp]);
+        setIndexOfPrinter(temp);
+        Toast.show('print bill: ' + currentPrinter?.device_id, Toast.LONG);
+      } else {
+        setIndexOfPrinter(0);
+        setCurrentPrinter(printers[0]);
+      }
+    } else {
+      Toast.show('printer not connected ', Toast.LONG);
+    }
+  };
+  useEffect(() => {
     OneSignal.setLogLevel(6, 0);
-    OneSignal.setAppId("91105012-75b5-402d-a4ca-003a9104133a");
+    OneSignal.setAppId('91105012-75b5-402d-a4ca-003a9104133a');
 
     // @ts-ignore
     OneSignal.setNotificationOpenedHandler(notification => {
-      console.log("OneSignal: notification opened:", notification);
+      console.log('OneSignal: notification opened:', notification);
     });
 
     // OneSignal.setEmail('tesingone799@gmail.com');
-    OneSignal.removeExternalUserId((res)=> {
+    OneSignal.removeExternalUserId(res => {
       console.log(res);
       OneSignal.setExternalUserId('tesingone798@gmail.com');
-    })
-    OneSignal.getDeviceState().then((res)=> console.log('response', res))
+    });
+    OneSignal.getDeviceState().then(res => console.log('response', res));
     // OneSignal?.getExternalUserId().then(function(externalUserId){
     //   console.log("externalUserId: ", externalUserId);
     // })
@@ -43,11 +111,10 @@ const App = () => {
     // OneSignal.push(function() {
     //   OneSignal.setExternalUserId('+94762053485');
     // });
-
-  },[])
+  }, []);
   const isDarkMode = useColorScheme() === 'dark';
   const [count, setCount] = useState(0);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [state, setState] = useState({
     text:
       '[C]<img>https://via.placeholder.com/300.jpg</img>\n' +
@@ -117,8 +184,8 @@ const App = () => {
   };
 
   const onPress = async () => {
-    setError('')
-    setCount(count+1)
+    setError('');
+    setCount(count + 1);
     try {
       console.log('We will invoke the native module here!');
       // await ThermalPrinterModule.printTcp({ payload: state.text });
@@ -128,72 +195,118 @@ const App = () => {
       await ThermalPrinterModule.printBluetooth({payload: state.text});
 
       console.log('done printing');
-      setError('')
+      setError('');
     } catch (err) {
       //error handling
       console.log(err.message);
-      setError(err.message)
+      setError(err.message);
     }
   };
 
-  const hanldeNotification  = ()=> {
+  const hanldeNotification = () => {
     const options = {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         Authorization: 'Basic NzViMTg1YzItNzM2Ni00ZDg1LTk5ZGEtMWU5MmM4ZjY0MzVi',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        app_id: "91105012-75b5-402d-a4ca-003a9104133a",
+        app_id: '91105012-75b5-402d-a4ca-003a9104133a',
         channel_for_external_user_ids: 'push',
-        included_segments: [
-          "Subscribed Users"
-        ],
+        included_segments: ['Subscribed Users'],
         contents: {en: 'Switto or Any Language Message', es: 'Spanish Message'},
         name: 'INTERNAL_CAMPAIGN_NAME',
-        big_picture: "https://i.gadgets360cdn.com/large/iphone_13_mini_rear_ndtv_1634220984395.jpg",
-        large_icon: "https://media.sketchfab.com/models/8b13cb3155da41108b1a13e3bc35442d/thumbnails/1d84c50b08a140b4b34130202daeb720/blob.jpeg"
-      })
+        big_picture:
+          'https://i.gadgets360cdn.com/large/iphone_13_mini_rear_ndtv_1634220984395.jpg',
+        large_icon:
+          'https://media.sketchfab.com/models/8b13cb3155da41108b1a13e3bc35442d/thumbnails/1d84c50b08a140b4b34130202daeb720/blob.jpeg',
+      }),
     };
 
     fetch('https://onesignal.com/api/v1/notifications', options)
       .then(response => response.json())
       .then(response => console.log(response))
       .catch(err => console.error(err));
-  }
+  };
   return (
-    <SafeAreaView style={{paddingHorizontal: 40}}>
-      <Text style={{color: COLORS.white,  fontSize: 16, marginTop: 30, marginBottom: 10}}>Printing text blow , if you want edit</Text>
+    <SafeAreaView style={{paddingHorizontal: 40, paddingTop: 50}}>
+      {/*<Text style={{color: COLORS.white,  fontSize: 16, marginTop: 30, marginBottom: 10}}>Printing text blow , if you want edit</Text>*/}
 
-      <TextInput
-        value={state.text}
-        onChangeText={(text) => setState((prev) => ({ ...prev, text }))}
-        placeHolder={'type text , to print'}
-        style={{borderWidth: 1, borderColor: COLORS.white, marginBottom: 10}}
-      />
+      {/*<TextInput*/}
+      {/*  value={state.text}*/}
+      {/*  onChangeText={(text) => setState((prev) => ({ ...prev, text }))}*/}
+      {/*  placeHolder={'type text , to print'}*/}
+      {/*  style={{borderWidth: 1, borderColor: COLORS.white, marginBottom: 10}}*/}
+      {/*/>*/}
       <Button
-        title=" Press this button to ,set Default text, default text contain Qr code and images like a bill"
+        title="connect Printer"
         color="#841584"
-        onPress={()=> setState(defaultText)}
-        style={{height: 30, paddingVertical: 20, marginTop: 5, marginBottom: 30}}
+        onPress={() => connectPrinter(printers[0])}
+        style={{
+          height: 30,
+          paddingVertical: 20,
+          marginTop: 5,
+          marginBottom: 30,
+        }}
       />
+      <View style={{height: 40}} />
       <Button
-        title="send notification"
+        title="test Printer Text"
         color="#841584"
-        onPress={hanldeNotification}
-        style={{height: 30, paddingVertical: 20, marginTop: 35}}
+        onPress={() => printTextTest()}
+        style={{
+          height: 30,
+          paddingVertical: 20,
+          marginTop: 35,
+          marginBottom: 30,
+        }}
       />
-      <View style={{marginTop: 300}}>
+      <View style={{height: 40}} />
+
+      <Button
+        title="Print"
+        color="#841584"
+        onPress={() => printBillTest()}
+        style={{
+          height: 30,
+          paddingVertical: 20,
+          marginTop: 25,
+          marginBottom: 30,
+        }}
+      />
+      <View style={{height: 40}} />
+      {printers && printers.length > 1 && (
         <Button
-          title="Print"
+          title="connect to Next Device"
           color="#841584"
-          onPress={onPress}
-          style={{height: 30, paddingVertical: 20}}
+          onPress={() => changeDevice()}
+          style={{
+            height: 30,
+            paddingVertical: 20,
+            marginTop: 25,
+            marginBottom: 30,
+          }}
         />
-        <Text style={{color: COLORS.white,  fontSize: 16, marginTop: 30}}>Press count  {count}</Text>
-        {error!= '' &&  <Text style={{color: COLORS.white,  fontSize: 16, marginTop: 30}}>Error message => {error}</Text>}
-      </View>
+      )}
+      <View style={{height: 40}} />
+
+      {/*<Button*/}
+      {/*  title="send notification"*/}
+      {/*  color="#841584"*/}
+      {/*  onPress={hanldeNotification}*/}
+      {/*  style={{height: 30, paddingVertical: 20, marginTop: 35}}*/}
+      {/*/>*/}
+      {/*<View style={{marginTop: 200}}>*/}
+      {/*  <Button*/}
+      {/*    title="Print"*/}
+      {/*    color="#841584"*/}
+      {/*    onPress={onPress}*/}
+      {/*    style={{height: 30, paddingVertical: 20}}*/}
+      {/*  />*/}
+      {/*  <Text style={{color: COLORS.white,  fontSize: 16, marginTop: 30}}>Press count  {count}</Text>*/}
+      {/*  {error!= '' &&  <Text style={{color: COLORS.white,  fontSize: 16, marginTop: 30}}>Error message => {error}</Text>}*/}
+      {/*</View>*/}
     </SafeAreaView>
   );
 };
