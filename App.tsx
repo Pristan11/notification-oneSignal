@@ -11,17 +11,9 @@ import {
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import OneSignal from 'react-native-onesignal';
-import ThermalPrinterModule from 'react-native-thermal-printer';
 import {COLORS} from './src/utils/theme';
 import {USBPrinter} from 'react-native-thermal-receipt-printer';
 import Toast from 'react-native-simple-toast';
-
-ThermalPrinterModule.defaultConfig = {
-  ...ThermalPrinterModule.defaultConfig,
-  ip: '192.168.100.246',
-  port: 9100,
-  timeout: 30000,
-};
 
 const App = () => {
   const [printers, setPrinters] = useState([
@@ -58,7 +50,7 @@ const App = () => {
   const printTextTest = () => {
     if (currentPrinter) {
       Toast.show('print text: ' + currentPrinter?.device_id, Toast.LONG);
-      currentPrinter && USBPrinter.printText('Test');
+      currentPrinter && USBPrinter.printText('<C>sample Testing</C>');
     } else {
       Toast.show('printer not connected ', Toast.LONG);
     }
@@ -67,7 +59,7 @@ const App = () => {
   const printBillTest = () => {
     if (currentPrinter) {
       Toast.show('print bill: ' + currentPrinter?.device_id, Toast.LONG);
-      currentPrinter && USBPrinter.printBill('<c>sample</c>');
+      currentPrinter && USBPrinter.printBill('<C>sample bill</C>');
     } else {
       Toast.show('printer not connected ', Toast.LONG);
     }
@@ -183,26 +175,6 @@ const App = () => {
     justifyContent: 'center',
   };
 
-  const onPress = async () => {
-    setError('');
-    setCount(count + 1);
-    try {
-      console.log('We will invoke the native module here!');
-      // await ThermalPrinterModule.printTcp({ payload: state.text });
-
-      //
-      // bluetooth
-      await ThermalPrinterModule.printBluetooth({payload: state.text});
-
-      console.log('done printing');
-      setError('');
-    } catch (err) {
-      //error handling
-      console.log(err.message);
-      setError(err.message);
-    }
-  };
-
   const hanldeNotification = () => {
     const options = {
       method: 'POST',
@@ -229,38 +201,31 @@ const App = () => {
       .then(response => console.log(response))
       .catch(err => console.error(err));
   };
+
+  const printInBillFormat = () => {
+    if (currentPrinter) {
+      Toast.show(
+        'print bill in bill format: ' + currentPrinter?.device_id,
+        Toast.LONG,
+      );
+      currentPrinter && USBPrinter.printBill(state.text);
+    } else {
+      Toast.show('printer not connected ', Toast.LONG);
+    }
+  };
   return (
     <SafeAreaView style={{paddingHorizontal: 40, paddingTop: 50}}>
-      {/*<Text style={{color: COLORS.white,  fontSize: 16, marginTop: 30, marginBottom: 10}}>Printing text blow , if you want edit</Text>*/}
-
-      {/*<TextInput*/}
-      {/*  value={state.text}*/}
-      {/*  onChangeText={(text) => setState((prev) => ({ ...prev, text }))}*/}
-      {/*  placeHolder={'type text , to print'}*/}
-      {/*  style={{borderWidth: 1, borderColor: COLORS.white, marginBottom: 10}}*/}
-      {/*/>*/}
       <Button
         title="connect Printer"
         color="#841584"
         onPress={() => connectPrinter(printers[0])}
-        style={{
-          height: 30,
-          paddingVertical: 20,
-          marginTop: 5,
-          marginBottom: 30,
-        }}
       />
       <View style={{height: 40}} />
       <Button
         title="test Printer Text"
         color="#841584"
         onPress={() => printTextTest()}
-        style={{
-          height: 30,
-          paddingVertical: 20,
-          marginTop: 35,
-          marginBottom: 30,
-        }}
+
       />
       <View style={{height: 40}} />
 
@@ -268,12 +233,13 @@ const App = () => {
         title="Print"
         color="#841584"
         onPress={() => printBillTest()}
-        style={{
-          height: 30,
-          paddingVertical: 20,
-          marginTop: 25,
-          marginBottom: 30,
-        }}
+      />
+      <View style={{height: 40}} />
+
+      <Button
+        title="Print bill in Bill format"
+        color="#841584"
+        onPress={() => printInBillFormat()}
       />
       <View style={{height: 40}} />
       {printers && printers.length > 1 && (
@@ -281,32 +247,10 @@ const App = () => {
           title="connect to Next Device"
           color="#841584"
           onPress={() => changeDevice()}
-          style={{
-            height: 30,
-            paddingVertical: 20,
-            marginTop: 25,
-            marginBottom: 30,
-          }}
+
         />
       )}
       <View style={{height: 40}} />
-
-      {/*<Button*/}
-      {/*  title="send notification"*/}
-      {/*  color="#841584"*/}
-      {/*  onPress={hanldeNotification}*/}
-      {/*  style={{height: 30, paddingVertical: 20, marginTop: 35}}*/}
-      {/*/>*/}
-      {/*<View style={{marginTop: 200}}>*/}
-      {/*  <Button*/}
-      {/*    title="Print"*/}
-      {/*    color="#841584"*/}
-      {/*    onPress={onPress}*/}
-      {/*    style={{height: 30, paddingVertical: 20}}*/}
-      {/*  />*/}
-      {/*  <Text style={{color: COLORS.white,  fontSize: 16, marginTop: 30}}>Press count  {count}</Text>*/}
-      {/*  {error!= '' &&  <Text style={{color: COLORS.white,  fontSize: 16, marginTop: 30}}>Error message => {error}</Text>}*/}
-      {/*</View>*/}
     </SafeAreaView>
   );
 };
