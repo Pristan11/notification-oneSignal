@@ -1,8 +1,11 @@
 buildscript {
     repositories {
+        google()
+        mavenCentral()
         gradlePluginPortal()
     }
     dependencies {
+        classpath 'com.android.tools.build:gradle:3.6.0'
         classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.12.10, 0.99.99]'
     }
 }
@@ -277,6 +280,10 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+    implementation 'com.sunmi:sunmiui:1.1.27'
+    //zxing to generate barcode
+    implementation files('libs/core-3.3.0.jar')
+    implementation 'com.sunmi:printerlibrary:1.0.18'
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
@@ -327,4 +334,10 @@ def isNewArchitectureEnabled() {
     // - Invoke gradle with `-newArchEnabled=true`
     // - Set an environment variable `ORG_GRADLE_PROJECT_newArchEnabled=true`
     return project.hasProperty("newArchEnabled") && project.newArchEnabled == "true"
+}
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
 }
