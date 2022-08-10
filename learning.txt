@@ -104,3 +104,7 @@ one signal for all users
 
 //Change App Name In React Native
 //https://stackoverflow.com/questions/34794679/change-app-name-in-react-native
+
+
+//Could not determine the dependencies of task ':app:mergeDebugAssets'
+//https://stackoverflow.com/questions/62379152/could-not-determine-the-dependencies-of-task-appmergedebugassets
